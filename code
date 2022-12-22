@@ -1,0 +1,213 @@
+#include <iostream>
+#include <locale.h>
+typedef struct node
+{
+	int zn;
+	struct node* left;
+	struct node* right;
+};
+
+struct node* root;
+
+/*struct node *ad(int x, node *root)
+{
+	//int x
+	//struct node *root=NULL;
+	if(root==NULL)
+	{
+		root = (node*)malloc(sizeof(struct node));
+		root->left=NULL;
+		root->right=NULL;
+		root->zn=x;
+	}else if(x<root->zn)
+		root->left=ad(x,root->left);
+	else
+		root->right=ad(x,root->right);
+}*/
+
+struct node* add(int a, struct node* root, struct node* p)
+{
+	if (p == NULL)
+	{
+		//int a;
+		//struct node* p = NULL;
+		//struct node* root = NULL;
+		p = (node*)malloc(sizeof(struct node));
+		//printf("Введите значение элемента:");
+		//scanf_s(" %d", &a);
+		p->left = NULL;
+		p->right = NULL;
+		p->zn = a;
+		if (root == NULL) return p;
+		if (a > root->zn) root->left = p;
+		else root->right = p;
+		return p;
+	}
+	if (a > p->zn) add(a, p, p->left);
+	else add(a, p, p->right);
+	return root;
+}
+
+struct node* add1(int a, struct node* root, struct node* p)
+{
+	if (p == NULL)
+	{
+		//int a;
+		//struct node* p = NULL;
+		//struct node* root = NULL;
+		p = (node*)malloc(sizeof(struct node));
+		//printf("Введите значение элемента:");
+		//scanf_s(" %d", &a);
+		p->left = NULL;
+		p->right = NULL;
+		p->zn = a;
+		if (root == NULL) return p;
+		if(a==root->zn)
+		{
+			printf("Вы ввели одинаковое зн-е");
+			return p;
+		}
+		if (a > root->zn) root->left = p;
+		else root->right = p;
+		return p;
+	}
+	if (a == p->zn)
+	{
+		printf("Вы ввели одинаковое зн-е");
+		return p;
+	}
+	if (a > p->zn) add1(a, p, p->left);
+	else add1(a, p, p->right);
+	return root;
+}
+/*void spstore(void)
+{
+	struct node* p = NULL;
+	p = add();
+
+	return;
+}*/
+
+/*oid rewiew(void)
+{
+	struct node* p = head;
+	while (p)
+	{
+		printf("%d  ", p->zn);
+		p = p->next;
+	}
+	return;
+}*/
+
+/*void opr(void)
+{
+	struct node* p = NULL;
+	struct node* str = head;
+	p = add();
+	int n,c=1;
+	printf("\nНомер в списке");
+	scanf_s("%d", &n);
+	while ((c < n-1) && (str->next != NULL))
+	{
+		str = str->next;
+		c++;
+	}
+	p->next = str->next;
+	str->next = p;
+	return;
+}*/
+
+void vivod(int i, struct node* p)
+{
+	//int i;
+	//printf("Введите значение элемента:");
+	//scanf_s(" %d", &i);
+	if (p == NULL) 
+	{ 
+		return; 
+	}
+	vivod(i + 1, p->right);
+	for (int d = 0; d < i; d++)
+	{
+		printf(" ");
+	}
+	printf("(%d)", i);
+	printf(" %d", p->zn);
+	vivod(i + 1, p->left);
+
+}
+void poisk(int y,int x, int i, struct node* p)
+{
+	if (p == NULL)
+	{
+		return;
+	}
+	poisk(y,x, i + 1, p->right);
+	if (x == p->zn)
+	{
+		printf(" %d", p->zn);
+		y++;
+	}
+	/*for (int d = 0; d < i; d++)
+	{
+		printf(" ");
+	}
+	printf("(%d)", i);*/
+	poisk(y,x ,i + 1, p->left);
+	printf("\nЧисло вхождений: %d", y);
+}
+
+int main()
+{
+	/*setlocale(LC_ALL, "Rus");
+	int a; int begin = 1;
+	root=NULL;
+	while (begin)
+	{
+		scanf_s("%d",&a);
+		if(a==-1)
+			{
+			printf("построение закончено");
+			   begin = 0;
+			}
+			else root= add(a,root,root);
+	}
+	vivod(0, root);
+	scanf_s("%d",&a);
+	return 0;*/
+
+	setlocale(LC_ALL, "Rus");
+	int d; int begin = 0,x=0;
+	root = NULL;
+	while (begin != 4)
+	{
+		printf("\n1.Добавить элемент\n");
+		printf("2.Вывести набор элементов\n");
+		printf("3.Поиск\n");
+		printf("4.Выход\n");
+		printf("Выбор: ");
+		scanf_s("%d", &begin);
+
+		if (begin == 1)
+		{
+			scanf_s("%d", &d);
+			//root = add(d, root, root);
+			root = add1(d, root, root);
+		}
+
+
+		if (begin == 2)
+		{
+			vivod(0, root);
+			//rewiew();
+		}
+
+		if (begin == 3)
+		{
+			scanf_s("%d", &x);
+			poisk(0,x, 0, root);
+		}
+	}
+}
+
+
